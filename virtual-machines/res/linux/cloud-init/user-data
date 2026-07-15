@@ -1,0 +1,71 @@
+#cloud-config
+allow_public_ssh_keys: true
+chpasswd:
+  expire: false
+disable_root: true
+no_ssh_fingerprints: true
+package_update: true
+package_upgrade: true
+packages:
+  - qemu-guest-agent
+users:
+  - groups:
+      - admin
+      - users
+      - docker
+    lock_passwd: true
+    name: ${ADMIN_USERNAME_PLACEHOLDER}
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ${SSH_PUBLIC_KEY_PLACEHOLDER}
+power_state:
+  mode: poweroff
+  condition: true
+runcmd:
+  - systemctl enable qemu-guest-agent
+  - /usr/local/bin/seed.sh
+ssh:
+  emit_keys_to_console: false
+ssh_deletekeys: true
+ssh_pwauth: false
+write_files:
+  - path: /etc/apt/preferences.d/no-snapd.pref
+    content: |
+      Package: snapd
+      Pin: release *
+      Pin-Priority: -10
+  - path: /usr/local/bin/seed.sh
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+
+      set -e
+
+      cleanup() {
+        ret=$?
+        if [[ ! -z "${seed_dir+x}" ]]; then
+          umount "${seed_dir}"
+          rmdir "${seed_dir}"
+        fi
+        rm --force /usr/local/bin/seed.sh
+        exit "${ret}"
+      }
+
+      trap cleanup EXIT
+
+      seed_drive=$(blkid --list-one --match-token LABEL=cidata --output device)
+
+      if [[ -z "${seed_drive}" ]]; then
+        echo "Unable to find seed device."
+        exit 1
+      fi
+
+      seed_dir=/mnt/seed
+      mkdir -p "${seed_dir}"
+      mount -o ro "${seed_drive}" "${seed_dir}"
+
+      export SEED_DIR="${seed_dir}"
+      export DOCKER_TAG="${DOCKER_TAG_PLACEHOLDER}"
+
+      "${seed_dir}/scripts/post_install.sh"

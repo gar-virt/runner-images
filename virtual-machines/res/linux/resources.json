@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Gitea Runner for gar-virt",
+    "version": "1.0.8-sl.1",
+    "filename": "gitea-runner-v${version}-linux-amd64.xz",
+    "url": "https://github.com/gar-virt/gitea-runner/releases/download/v${version}/${filename}",
+    "sha256_hash": "eae4ff11e3a0378067b251eac036b76a437b9788950fec849108ace2aa99112a",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "Ubuntu 26.04 Server Cloud Image (amd64)",
+    "version": "20260713",
+    "filename": "ubuntu-26.04-server-cloudimg-amd64.img",
+    "url": "https://cloud-images.ubuntu.com/releases/resolute/release-${version}/${filename}",
+    "sha256_hash": "0826c5005ebc70edcfc4519e5d65eca766782f16426231c4c3e92b811ba8df0b",
+    "destination": "source_images"
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Visual Studio Build Tools",
+    "version": "18.7.3",
+    "filename": "vs_BuildTools.exe",
+    // https://learn.microsoft.com/en-us/visualstudio/releases/2026/release-history
+    "url": "https://download.visualstudio.microsoft.com/download/pr/4037ccca-d103-412b-a678-bc0aa164315e/${sha256_hash}/${filename}",
+    "sha256_hash": "07b09afd416dc05c781f171c881c23e42907eeb8d812fa1d2993dffb9323c869",
+    "destination": "."
+  }
+]

@@ -1,0 +1,5 @@
+{
+    "adminUserName": "master",
+    "sshPublicKey": "ssh-ed25519 [...]",
+    "dockerTag": "docker.yourdomain.local/runner-images"
+}

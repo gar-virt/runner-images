@@ -1,0 +1,103 @@
+[
+  {
+    "name": "Gitea Runner for gar-virt",
+    "version": "1.0.8-sl.1",
+    "filename": "gitea-runner-v${version}-windows-4.0-amd64.exe.xz",
+    "url": "https://github.com/gar-virt/gitea-runner/releases/download/v${version}/${filename}",
+    "sha256_hash": "95e732097440a4b61cb6e6bf46f52de0bceb10c8c824e52f4495efdae2dfe2b4",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "PowerShell (pwsh)",
+    "version": "7.6.3",
+    "filename": "PowerShell-${version}-win-x64.msi",
+    "url": "https://github.com/PowerShell/PowerShell/releases/download/v${version}/${filename}",
+    "sha256_hash": "4f574fddb567f4d0756094424a1e4e2b2bbdde21de9f0965c0f988d24dc658e4",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "Microsoft Visual C++ Redistributable for Visual Studio 2017-2026",
+    "version": "7.6.3",
+    "filename": "VC_redist.x64.exe",
+    // https://aka.ms/vc14/vc_redist.x64.exe
+    "url": "https://download.visualstudio.microsoft.com/download/pr/ebdab8e5-1d7b-4d9f-a11b-cbb1720c3b12/843068991DAAA1F73AD9F6239BCE4D0F6A07A51F18C37EA2A867E9BECA71295C/${filename}",
+    "sha256_hash": "843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "7-Zip",
+    "version": "26.02",
+    "filename": "7z${version|replace('.', '')}-x64.exe",
+    "url": "https://github.com/ip7z/7zip/releases/download/${version}/${filename}",
+    "sha256_hash": "6745fa76dc2ea031596d8678f6f6b99c3c1b435b4164a63485adbbc7b8d82ef0",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "Git",
+    "version": "2.55.0.2",
+    "filename": "Git-${version}-64-bit.exe",
+    "tag": "v2.55.0.windows.2",
+    "url": "https://github.com/git-for-windows/git/releases/download/${tag}/${filename}",
+    "sha256_hash": "74300da8dfe0d844c5449ffb809662f8eeac47916f83730c879c4084890c6c0e",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "Node.js",
+    "version": "24.18.0",
+    "filename": "node-v${version}-x64.msi",
+    "url": "https://nodejs.org/dist/v${version}/${filename}",
+    "sha256_hash": "e30cd4ca15529583afe0efc978f1ae3ab3a93c2400c222d0752d17900552ebb3",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "Ninja",
+    "version": "1.13.2",
+    "filename": "ninja-win.zip",
+    "url": "https://github.com/ninja-build/ninja/releases/download/v${version}/${filename}",
+    "sha256_hash": "07fc8261b42b20e71d1720b39068c2e14ffcee6396b76fb7a795fb460b78dc65",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "CMake",
+    "version": "4.4.0",
+    "filename": "cmake-${version}-windows-x86_64.msi",
+    "url": "https://github.com/Kitware/CMake/releases/download/v${version}/${filename}",
+    "sha256_hash": "82db53fcb8f38be541a26093489f39d5ed79b71b53cd121fc32a022a6bf310b1",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "Python",
+    "version": "3.14.6",
+    "filename": "python-${version}-amd64.exe",
+    "url": "https://www.python.org/ftp/python/${version}/${filename}",
+    "sha256_hash": "14b3e9a710a3fcf0bd9b55ab6b60412bd91227563f813fc49040cabc0209e0bd",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "MinGW",
+    // GCC 15.2.0 (with POSIX threads) + MinGW-w64 14.0.0 (MSVCRT) - release 7
+    "version": "15.2.0posix-14.0.0-msvcrt-r7",
+    "filename": "winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64msvcrt-14.0.0-r7.zip",
+    "url": "https://github.com/brechtsanders/winlibs_mingw/releases/download/${version}/${filename}",
+    "sha256_hash": "9cd587d91ee7910dd8f9087e4bf9ac6b59a7ee594e1360601ba8a05355b9cefa",
+    "destination": "embed/tools"
+  },
+  {
+    "name": "VirtIO",
+    "version": "0.1.285",
+    "release": "${version}-1",
+    "filename": "virtio-win-${version}.iso",
+    "url": "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-${release}/${filename}",
+    "sha256_hash": "e14cf2b94492c3e925f0070ba7fdfedeb2048c91eea9c5a5afb30232a3976331",
+    "destination": "source_images"
+  },
+  {
+    "name": "Windows Server 2025",
+    "version": "26100.32230",
+    "release": "${version}.260111-0550",
+    "filename": "${release}.lt_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+    "url": "https://software-static.download.prss.microsoft.com/dbazure/998969d5-f34g-4e03-ac9d-1f9786c66749/${filename}",
+    "sha256_hash": "7b052573ba7894c9924e3e87ba732ccd354d18cb75a883efa9b900ea125bfd51",
+    "destination": "source_images"
+  }
+]

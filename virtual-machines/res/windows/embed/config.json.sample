@@ -1,0 +1,7 @@
+{
+    "sshPublicKey": "ssh-ed25519 [...]",
+    "activationEdition": "ServerDatacenterCor",
+    "activationKey": "D764K-2NDRG-47T6Q-P8T8W-YP6DF",
+    "activationServerIp": "127.0.0.1",
+    "activationServer": "kms"
+}
