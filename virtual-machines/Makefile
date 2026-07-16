@@ -100,6 +100,7 @@ linux-base: linux-seed
 	qemu-img resize "$(linux_base_image)" "$(LINUX_VM_DISK_SIZE)"
 
 	kvm \
+		-machine q35 \
 		-cpu host \
 		-m "$(LINUX_VM_MEMORY)" \
 		-smp 4 \
@@ -114,6 +115,7 @@ linux-test:
 	qemu-img create -f qcow2 -o "backing_file=${linux_base_image}" -o backing_fmt=qcow2 "${linux_test_image}"
 
 	kvm \
+		-machine q35 \
 		-cpu host \
 		-m "$(LINUX_VM_MEMORY)" \
 		-smp 4 \
@@ -175,6 +177,7 @@ windows-base: windows-seed
 	qemu-img create -f qcow2 "$(windows_base_image)" "$(WINDOWS_VM_DISK_SIZE)"
 
 	kvm \
+		-machine q35 \
 		-cpu host \
 		-m "$(WINDOWS_VM_MEMORY)" \
 		-smp 4 \
@@ -190,6 +193,7 @@ windows-test:
 	qemu-img create -f qcow2 -o "backing_file=${windows_base_image}" -o backing_fmt=qcow2 "${windows_test_image}"
 
 	kvm \
+		-machine q35 \
 		-cpu host \
 		-m "$(WINDOWS_VM_MEMORY)" \
 		-smp 4 \
