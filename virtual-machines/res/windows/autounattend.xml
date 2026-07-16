@@ -105,7 +105,7 @@
             <UserAccounts>
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
-                        <Name>master</Name>
+                        <Name>${ADMIN_USERNAME_PLACEHOLDER}</Name>
                         <Group>Administrators</Group>
                     </LocalAccount>
                 </LocalAccounts>

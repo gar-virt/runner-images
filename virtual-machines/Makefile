@@ -162,12 +162,22 @@ $(vs_build_tools_build_dir)/cache_embed_symlink.stamp
 	mkdir -p "$$(dirname "$@")"
 	touch "$@"
 
+$(windows_build_dir)/autounattend.xml: \
+$(windows_res_dir)/autounattend.xml \
+$(windows_res_dir)/scripts/gen_autounattend.py \
+$(shell find "$(windows_res_dir)/embed" -type f)
+	"$(PYTHON)" "$(windows_res_dir)/scripts/gen_autounattend.py" "$(windows_res_dir)/embed/config.json" \
+		< "$(windows_res_dir)/autounattend.xml" \
+		> "$@"
+
 $(windows_seed_image): \
 $(windows_build_dir)/dependencies.stamp \
+$(windows_build_dir)/autounattend.xml \
 $(shell find "$(windows_res_dir)/embed" -type f)
 	mkdir -p "$(windows_base_build_dir)"
 	genisoimage -follow-links -udf -input-charset utf8 -graft-points -volid seed \
 		-output "$@" \
+		$(windows_build_dir)/autounattend.xml \
 		"/=$(windows_build_dir)/embed" \
 		"/=$(windows_res_dir)/embed"
 

@@ -32,7 +32,7 @@ function Invoke-Checked {
 
 function Find-SeedDrive {
     foreach ($letter in 'DEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray()) {
-        if (Test-Path -LiteralPath "${letter}:\Autounattend.xml") {
+        if (Test-Path -LiteralPath "${letter}:\autounattend.xml") {
             return "${letter}:"
         }
     }

@@ -59,6 +59,7 @@ The following table describes the config file for Windows.
 
 | Property             | Description                                                                                                |
 | -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `adminUserName`      | Name of the local admin account.                                                                  |
 | `sshPublicKey`       | An SSH public key for managing the virtual machine. An admin can use it for troubleshooting.               |
 | `activationEdition`  | The Windows edition to upgrade to. See the output of `DISM /Online /Get-TargetEditions` for valid options. |
 | `activationKey`      | Windows activation key. It's expected that a GLVK will be used. The sample key is a public GLVK.           |
@@ -107,7 +108,7 @@ ssh -i SSH_PRIVATE_KEY_PATH -p LOCAL_SSH_PORT USER@127.0.0.1
 
 Match the `LOCAL_SSH_PORT` with the one used with `SSH_FORWARD_PORT`.
 
-For Linux, the `USER` will be whatever you configured as `adminUserName` in your config file. For Windows it'll be `Administrator`.
+The `USER` will be whatever you configured as `adminUserName` in your config file.
 
 Fill out the placeholders.
 

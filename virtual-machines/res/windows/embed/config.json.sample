@@ -1,4 +1,5 @@
 {
+    "adminUserName": "master",
     "sshPublicKey": "ssh-ed25519 [...]",
     "activationEdition": "ServerDatacenterCor",
     "activationKey": "D764K-2NDRG-47T6Q-P8T8W-YP6DF",
