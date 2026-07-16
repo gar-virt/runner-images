@@ -388,10 +388,10 @@ $steps = @(
         }
     }; Shutdown = $false; Last = $false }
     @{ Name = 'Install Gitea Runner'; Action = {
-        $version = '1.0.8-sl.1'
+        $version = '2.0.1-sl.1'
         $filename = "gitea-runner-v$version-windows-4.0-amd64.exe.xz"
         $url = "https://github.com/gar-virt/gitea-runner/releases/download/v$version/$filename"
-        $hashSha256 = '95e732097440a4b61cb6e6bf46f52de0bceb10c8c824e52f4495efdae2dfe2b4'
+        $hashSha256 = '0c9dd01e2b77b43fdd55b68f3ecda6d89ed49672a159fe64d6f211a4b315e882'
         $drivePath = Join-Path -Path $seedToolsDir -ChildPath $filename
         $tempPath = Join-Path -Path $Env:TEMP -ChildPath $filename
         $archivePath = $drivePath

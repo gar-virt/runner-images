@@ -1,10 +1,10 @@
 [
   {
     "name": "Gitea Runner for gar-virt",
-    "version": "1.0.8-sl.1",
+    "version": "2.0.1-sl.1",
     "filename": "gitea-runner-v${version}-linux-amd64.xz",
     "url": "https://github.com/gar-virt/gitea-runner/releases/download/v${version}/${filename}",
-    "sha256_hash": "eae4ff11e3a0378067b251eac036b76a437b9788950fec849108ace2aa99112a",
+    "sha256_hash": "751d9a62ffcbed74c261a79564973498bced80822d58e300ed801d868a5ea6bb",
     "destination": "embed/tools"
   },
   {

@@ -69,9 +69,9 @@ install_docker_images() {
 }
 
 install_gitea_runner() {
-    version=1.0.8-sl.1
+    version=2.0.1-sl.1
     filename=gitea-runner-v${version}-linux-amd64
-    sha256_hash=eae4ff11e3a0378067b251eac036b76a437b9788950fec849108ace2aa99112a
+    sha256_hash=751d9a62ffcbed74c261a79564973498bced80822d58e300ed801d868a5ea6bb
     if [[ -f "${SEED_DIR}/${filename}" ]]; then
         archive_path=${SEED_DIR}/${filename}
     else
