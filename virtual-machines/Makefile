@@ -5,9 +5,15 @@ SSH_FORWARD ?= 0
 # Local port to access the VM via SSH
 SSH_FORWARD_PORT ?= 2222
 
+# CPU topology supplied to qemu/kvm as the -smp parameter
+VM_SMP ?= 4
+LINUX_VM_SMP ?= $(VM_SMP)
+WINDOWS_VM_SMP ?= $(VM_SMP)
+
 # MiB memory assigned to virtual machines during build
-LINUX_VM_MEMORY ?= 2048
-WINDOWS_VM_MEMORY ?= 2048
+VM_MEMORY ?= 2048
+LINUX_VM_MEMORY ?= $(VM_MEMORY)
+WINDOWS_VM_MEMORY ?= $(VM_MEMORY)
 
 # Virtual machine base disk size supplied to qemu-img
 LINUX_VM_DISK_SIZE ?= 25G
@@ -103,7 +109,7 @@ linux-base: linux-seed
 		-machine q35 \
 		-cpu host \
 		-m "$(LINUX_VM_MEMORY)" \
-		-smp 4 \
+		-smp "$(LINUX_VM_SMP)" \
 		-nic '$(nic_options)' \
 		-nographic \
 		-drive "file=$(linux_base_image),if=virtio" \
@@ -118,7 +124,7 @@ linux-test:
 		-machine q35 \
 		-cpu host \
 		-m "$(LINUX_VM_MEMORY)" \
-		-smp 4 \
+		-smp "$(LINUX_VM_SMP)" \
 		-nic '$(nic_options)' \
 		-nographic \
 		-drive "file=$(linux_test_image),if=virtio"
@@ -180,7 +186,7 @@ windows-base: windows-seed
 		-machine q35 \
 		-cpu host \
 		-m "$(WINDOWS_VM_MEMORY)" \
-		-smp 4 \
+		-smp "$(WINDOWS_VM_SMP)" \
 		-nic '$(nic_options)' \
 		-drive "file=${windows_base_image},if=virtio" \
 		-drive "file=${windows_seed_image},media=cdrom" \
@@ -196,7 +202,7 @@ windows-test:
 		-machine q35 \
 		-cpu host \
 		-m "$(WINDOWS_VM_MEMORY)" \
-		-smp 4 \
+		-smp "$(WINDOWS_VM_SMP)" \
 		-nic '$(nic_options)' \
 		-drive "file=${windows_test_image},if=virtio" \
 		-drive "file=${windows_seed_image},media=cdrom"
