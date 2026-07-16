@@ -57,7 +57,8 @@ vs_build_tools_exe := $(vs_build_tools_build_dir)/vs_BuildTools.exe
 .PHONY: all
 all: linux-base windows-base
 
-$(linux_build_dir)/resources.json.stamp:
+$(linux_build_dir)/resources.json.stamp: \
+$(linux_res_dir)/resources.json
 	"$(PYTHON)" "$(scripts_dir)/fetch_resources.py" --base-dir "$(linux_build_dir)" "$(linux_res_dir)/resources.json"
 	mkdir -p "$$(dirname "$@")"
 	touch "$@"
@@ -128,7 +129,8 @@ linux-test:
 		-nographic \
 		-drive "file=$(linux_test_image),if=virtio"
 
-$(vs_build_tools_exe):
+$(vs_build_tools_exe): \
+$(windows_res_dir)/resources.vs_build_tools.json
 	"$(PYTHON)" "$(scripts_dir)/fetch_resources.py" --base-dir "$(vs_build_tools_build_dir)" "$(windows_res_dir)/resources.vs_build_tools.json"
 
 $(vs_build_tools_build_dir)/cache.stamp: \
@@ -150,7 +152,8 @@ $(vs_build_tools_build_dir)/cache.stamp
 	mkdir -p "$$(dirname "$@")"
 	touch "$@"
 
-$(windows_build_dir)/resources.json.stamp:
+$(windows_build_dir)/resources.json.stamp: \
+$(windows_res_dir)/resources.json
 	"$(PYTHON)" "$(scripts_dir)/fetch_resources.py" --base-dir "$(windows_build_dir)" "$(windows_res_dir)/resources.json"
 	mkdir -p "$$(dirname "$@")"
 	touch "$@"
