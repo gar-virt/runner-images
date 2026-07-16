@@ -69,9 +69,8 @@ $(linux_base_build_dir)/meta-data:
 
 $(linux_base_build_dir)/user-data: \
 $(linux_res_dir)/scripts/gen_user_data.py \
-$(linux_res_dir)/embed/config.json \
 $(linux_res_dir)/cloud-init/user-data \
-$(linux_res_dir)/embed/scripts/post_install.sh
+$(shell find "$(linux_res_dir)/embed" -type f)
 	"$(PYTHON)" "$(linux_res_dir)/scripts/gen_user_data.py" "$(linux_res_dir)/embed/config.json" \
 		< "$(linux_res_dir)/cloud-init/user-data" \
 		> "$@"
