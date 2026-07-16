@@ -256,8 +256,9 @@ $steps = @(
             '/NORESTART'
         )
         Invoke-Checked { Start-Process -FilePath $installerPath -ArgumentList $installArgs -Wait -PassThru }
-        $gitCmdDir = "$Env:ProgramFiles\Git\cmd"
-        AppendMachinePath -Path $gitCmdDir
+        AppendMachinePath -Path "$Env:ProgramFiles\Git\cmd"
+        # Add bash and other tools bundled with Git to PATH
+        AppendMachinePath -Path "$Env:ProgramFiles\Git\bin"
         if (Test-Path -Path $tempPath) {
             Remove-Item -Path $tempPath -Force
         }
