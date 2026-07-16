@@ -254,11 +254,19 @@ $steps = @(
         $installArgs = @(
             '/VERYSILENT'
             '/NORESTART'
+            '/o:PathOption=CmdTools'
+            '/o:BashTerminalOption=ConHost'
+            '/o:EnableSymlinks=Enabled'
+            '/COMPONENTS=gitlfs'
         )
         Invoke-Checked { Start-Process -FilePath $installerPath -ArgumentList $installArgs -Wait -PassThru }
-        AppendMachinePath -Path "$Env:ProgramFiles\Git\cmd"
         # Add bash and other tools bundled with Git to PATH
+        # $Env:ProgramFiles\Git\cmd should have been added by the installer
         AppendMachinePath -Path "$Env:ProgramFiles\Git\bin"
+        # Make any directory "safe"
+        Invoke-Checked { & git config --system --add safe.directory '*' }
+        # Disable Git Credentials Manager to prevent it from prompting the user
+        [Environment]::SetEnvironmentVariable('GCM_INTERACTIVE', 'Never', [EnvironmentVariableTarget]::Machine)
         if (Test-Path -Path $tempPath) {
             Remove-Item -Path $tempPath -Force
         }
