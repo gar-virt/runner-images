@@ -61,6 +61,70 @@ function Load-Config {
     return Get-Content -Path $path | ConvertFrom-Json
 }
 
+function ConfigureQemuGaService {
+    # Set service to start manually so that we can change the user later
+    Set-Service -Name 'QEMU-GA' -StartupType Manual
+
+    # Create new user for the QEMU-GA service
+    $user = New-LocalUser -Name 'qemuga' -NoPassword -AccountNeverExpires -UserMayNotChangePassword
+    Set-LocalUser -Name $user.Name -PasswordNeverExpires $true
+    Add-LocalGroupMember -Group 'Administrators' -Member $user.Name
+
+    # Grant the service logon right to the user
+    $csharpCode = Get-Content -Path (Join-Path -Path $PSScriptRoot -ChildPath "lsa.cs") -Raw
+    Add-Type -TypeDefinition $csharpCode -Language CSharp
+    $err = [LsaWrapper]::SetRight($user.Name, "SeServiceLogonRight")
+    if ($err -ne 0) {
+        throw "Failed to change logon rights ($err)"
+    }
+
+    # Configure QEMU-GA at system start
+    # string GeneratePassword(int length, int numberOfNonAlphanumericCharacters)
+    $script = @'
+$PSNativeCommandUseErrorActionPreference = $true
+$ErrorActionPreference = 'Stop'
+$ProgressPreference = 'SilentlyContinue'
+
+function New-SecurePassword {
+    param([int]$Length)
+
+    $passwordBytes = [byte[]]::new($passwordLength)
+
+    $rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+    $rng.GetBytes($passwordBytes)
+    $rng.Dispose()
+
+    $passwordPlain = [Convert]::ToBase64String($passwordBytes)
+    $passwordSecure = ConvertTo-SecureString $passwordPlain -AsPlainText -Force
+
+    return @{ Plain = $passwordPlain; Secure = $passwordSecure }
+}
+
+# Generate random password
+$passwordLength = 64
+$password = New-SecurePassword -Length $passwordLength
+
+# Set the password for the user
+$user = Get-LocalUser -Name 'qemuga'
+Set-LocalUser -Name $user.Name -Password $password.Secure
+
+# Update service with the new user and password
+$service = Get-CimInstance -ClassName Win32_Service -Filter "Name='QEMU-GA'"
+$cimResult = $service | Invoke-CimMethod -MethodName Change -Arguments @{ StartName = ".\$($user.Name)"; StartPassword = $password.Plain }
+if ($cimResult.ReturnValue -ne 0) {
+    throw "Failed to change service credentials ($($cimResult.ReturnValue))"
+}
+
+Remove-Variable password
+
+Start-Service -Name $service.Name
+'@
+    $script | Out-File 'C:\qemuga-setup.ps1'
+    $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-ExecutionPolicy Bypass -File "C:\qemuga-setup.ps1"'
+    $trigger = New-ScheduledTaskTrigger -AtStartup
+    Register-ScheduledTask -TaskName 'qemuga-setup' -Action $action -Trigger $trigger -User 'SYSTEM' -RunLevel 'Highest' | Out-Null
+}
+
 $steps = @(
     @{ Name = 'Bootstrap'; Action = {}; Shutdown = $false; Last = $false }
     @{ Name = 'Set Windows edition'; Action = {
@@ -101,6 +165,7 @@ $steps = @(
         )
         $drivePath = Find-VirtioGuestTools
         Invoke-Checked { Start-Process -FilePath $drivePath -ArgumentList $installArgs -Wait -PassThru }
+        ConfigureQemuGaService
     }; Shutdown = $false; Last = $false }
     @{ Name = 'Set up network profile'; Action = {
         $profile = Get-NetConnectionProfile
