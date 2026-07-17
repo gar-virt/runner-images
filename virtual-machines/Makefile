@@ -1,5 +1,8 @@
 PYTHON ?= python3
 
+# Always recreate the test disk image
+RECREATE_TEST_DISK ?= 1
+
 # Enable SSH forwarding (set to 1)
 SSH_FORWARD ?= 0
 # Local port to access the VM via SSH
@@ -101,6 +104,8 @@ linux-seed: $(linux_seed_image)
 
 .PHONY: linux-base
 linux-base: linux-seed
+	if [ -f "$(linux_base_image)" ]; then; rm --force "$(linux_base_image)"; fi
+
 	mkdir -p "$$(dirname "$(linux_base_image)")"
 	cp --force "$(linux_cloud_image)" "$(linux_base_image)"
 	qemu-img resize "$(linux_base_image)" "$(LINUX_VM_DISK_SIZE)"
@@ -117,8 +122,10 @@ linux-base: linux-seed
 
 .PHONY: linux-test
 linux-test:
+ifeq ($(RECREATE_TEST_DISK),1)
 	mkdir -p "$(linux_test_build_dir)"
 	qemu-img create -f qcow2 -o "backing_file=${linux_base_image}" -o backing_fmt=qcow2 "${linux_test_image}"
+endif
 
 	kvm \
 		-machine q35 \
@@ -191,6 +198,8 @@ windows-seed: $(windows_seed_image)
 
 .PHONY: windows-base
 windows-base: windows-seed
+	if [ -f "$(windows_base_image)" ]; then rm --force "$(windows_base_image)"; fi
+
 	mkdir -p "$(windows_base_build_dir)"
 	qemu-img create -f qcow2 "$(windows_base_image)" "$(WINDOWS_VM_DISK_SIZE)"
 
@@ -207,8 +216,10 @@ windows-base: windows-seed
 
 .PHONY: windows-test
 windows-test:
+ifeq ($(RECREATE_TEST_DISK),1)
 	mkdir -p "$(windows_test_build_dir)"
 	qemu-img create -f qcow2 -o "backing_file=${windows_base_image}" -o backing_fmt=qcow2 "${windows_test_image}"
+endif
 
 	kvm \
 		-machine q35 \
