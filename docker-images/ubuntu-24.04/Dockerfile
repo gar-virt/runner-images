@@ -1,4 +1,5 @@
-FROM ubuntu:24.04
+ARG BASE_IMAGE=ubuntu:24.04
+FROM ${BASE_IMAGE}
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         7zip \
@@ -24,3 +25,7 @@ RUN curl -sSLo node.tar.xz https://nodejs.org/dist/v24.18.0/node-v24.18.0-linux-
     && rm node.tar.xz
 RUN node -v \
     && npm -v
+ARG BASE_IMAGE
+LABEL org.opencontainers.image.source=https://github.com/gar-virt/runner-images
+LABEL org.opencontainers.image.description="Runner image based on ${BASE_IMAGE}"
+LABEL org.opencontainers.image.licenses=Apache-2.0
