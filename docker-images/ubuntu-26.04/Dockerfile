@@ -4,6 +4,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         7zip \
         build-essential \
+        ca-certificates \
         clang-22 \
         clang-format-22 \
         clang-tidy-22 \
