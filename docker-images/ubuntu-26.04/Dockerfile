@@ -13,6 +13,7 @@ RUN apt-get update \
         g++-15 \
         gcc-15 \
         git \
+        libclang-rt-22-dev \
         ninja-build \
         wget \
         xz-utils \
