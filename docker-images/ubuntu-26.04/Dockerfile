@@ -14,6 +14,7 @@ RUN apt-get update \
         git \
         ninja-build \
         wget \
+        xz-utils \
         zip \
     && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 15 --slave /usr/bin/g++ g++ /usr/bin/g++-15 --slave /usr/bin/gcov gcov /usr/bin/gcov-15
